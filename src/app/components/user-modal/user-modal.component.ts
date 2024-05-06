@@ -11,6 +11,8 @@ import { Etnia } from '../../models/etnia.model';
 import { ComunidadEtnica } from '../../models/comunidadEtnica.model';
 import { PrestadorSalud } from '../../models/prestadorSalud.model';
 import { EntidadesAdministradorasSalud } from '../../models/entidadesAdministradorasSalud.model';
+import { Ocupacion } from '../../models/ocupacion.model';
+import { DepartamentoMunicipios } from '../../models/departamentoMunicipio.model';
 
 @Component({
   selector: 'app-user-modal',
@@ -38,7 +40,9 @@ export class UserModalComponent implements OnInit {
     identidadGenero: new FormControl('', Validators.required),
     codigoOcupacion: new FormControl('', Validators.required),
     idPaisResidencia: new FormControl('', Validators.required),
+    codigoDepartamento: new FormControl('', Validators.required),
     codigoDeparMuni: new FormControl('', Validators.required),
+    codigoEtnia: new FormControl('', Validators.required),
     codigoComunidad: new FormControl('', Validators.required),
     zonaResidencia: new FormControl('', Validators.required),
     codigoEntidad: new FormControl('', Validators.required),
@@ -60,6 +64,10 @@ export class UserModalComponent implements OnInit {
   comunidadEtnicaList: ComunidadEtnica[] = [];
   prestadorSaludList: PrestadorSalud[] = [];
   entidadAdministradoraList: EntidadesAdministradorasSalud[] = [];
+  ocupacionesList: { text: string, value: string, isparent: boolean }[] = [];
+  departamentoList: DepartamentoMunicipios[] = [];
+  municipioList: DepartamentoMunicipios[] = [];
+
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -72,6 +80,8 @@ export class UserModalComponent implements OnInit {
     this.getAllEtnia();
     this.getAllPrestadorSalud();
     this.getAllEntidadesSalud();
+    this.getAllOcupacion();
+    this.getAllDepartamentos();
   }
 
   async getAllDocumentTypes() {
@@ -95,6 +105,13 @@ export class UserModalComponent implements OnInit {
     }
   }
 
+  async getAllDepartamentos() {
+    const result = await firstValueFrom(this.masterService.getAll<DepartamentoMunicipios>(TablesEnum.Departamento));
+    if (result.success) {
+      this.departamentoList = result.data!;
+    }
+  }
+
   async getAllPrestadorSalud() {
     const result = await firstValueFrom(this.masterService.getAll<PrestadorSalud>(TablesEnum.PrestadoresSalud));
     if (result.success) {
@@ -109,23 +126,49 @@ export class UserModalComponent implements OnInit {
     const tg = evt.target as HTMLSelectElement;
     const codigoEtnia = tg.value;
 
-    console.log(codigoEtnia);
-
     const result = await firstValueFrom(this.masterService.getAll<ComunidadEtnica>(TablesEnum.ComunidadEtnica, codigoEtnia));
     if (result.success) {
       this.comunidadEtnicaList = result.data!;
     }
   }
 
+  async getAllMunicipiosByDepartamento(evt: Event) {
+    this.municipioList = [];
+    this.userForm.get('codigoDeparMuni')?.setValue('');
+
+    const tg = evt.target as HTMLSelectElement;
+    const codigoDepart = tg.value;
+
+    const result = await firstValueFrom(this.masterService.getAll<DepartamentoMunicipios>(TablesEnum.Municipio, codigoDepart));
+    if (result.success) {
+      this.municipioList = result.data!;
+    }
+  }
+
+  async getAllOcupacion(parent?: string) {
+    const result = await firstValueFrom(this.masterService.getAll<{ocupacion: Ocupacion, esPadre:boolean}>(TablesEnum.Ocupacion, parent));
+    if (result.success) {
+      this.ocupacionesList = result.data?.map(item => {
+        return {
+          text: item.ocupacion.ocupacion1,
+          value: item.ocupacion.codigoOcupacion,
+          isparent: item.esPadre
+        }
+      })!;
+    }
+  }
+
   save() {
     this.submited = true;
+
+    console.log(this.userForm.getRawValue());
   }
 
   onchangeOpoDonacion(evt: Event) {
 
     const tg = evt.target as HTMLInputElement;
 
-    
+
     if (tg.checked) {
       console.log(tg.checked)
       this.userForm.get('codigoEntidad')?.addValidators(Validators.required);

@@ -6,8 +6,7 @@
     </div>
 </master-content>
 <master-content placeholder="main">
-    <input-select-tree></input-select-tree>
-
+    
     <ol-datatable [JSONdata]="JSONdata" [dataValues]="dataValues" [itemsPerPage]="$any(itemsPerPage)"
         [totalItems]="totalItems" keyValue="idUsuario" paginatePosition="bottom" [filter]="true"
         (pageChange)="onPageChanged($event)" (onSearch)="getAll(1,$event)" filterPlaceHolder="Buscar por documento">

@@ -18,6 +18,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { HealthServicesComponent } from './pages/health-services/health-services.component';
 import { UserModalComponent } from './components/user-modal/user-modal.component';
 import { InputSelectTreeComponent } from './shared/input-select-tree/input-select-tree.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { InputSelectTreeComponent } from './shared/input-select-tree/input-selec
     HomeComponent,
     HealthServicesComponent,
     UserModalComponent,
-    InputSelectTreeComponent
+    InputSelectTreeComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,

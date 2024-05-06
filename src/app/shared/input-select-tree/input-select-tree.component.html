@@ -1,21 +1,24 @@
 <div class="input-select-tree-content">
 
-    <input class="form-select" readonly>
-    <div class="drop-down-container">
+    <input class="form-select" readonly (click)="toggle(); $event.stopPropagation()" [(ngModel)]="selectedText"
+    [ngClass]="{'is-invalid': invalidClass}">
+    <div *ngIf="isActive" class="drop-down-container">
         <div class="header-tree">
             <div class="searcher-tree">
-                <input type="text" class="form-control" placeholder="Buscar">
+                <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searcher">
             </div>
             <label class="title-tree">
-                Todos
+                {{preSelectedText}}
             </label>
         </div>
         <div class="body-tree">
             <ul>
-                <li>
-                    Texto 
-                    <i class="fa-solid fa-chevron-right"></i>
-                </li>
+                @for (item of JsonData | filterPipe: searcher; track $index) {
+                    <li (click)="valueSelected($index)">
+                        <p>{{item.text}}</p> 
+                        <i *ngIf="item.isparent" class="fa-solid fa-chevron-right"></i>
+                    </li>
+                }
             </ul>
         </div>
     </div>

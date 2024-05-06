@@ -80,11 +80,15 @@
                     <option value="No lo declara">No lo declara</option>
                 </select>
             </div>
-            <div class="col-md-3 col-sm-12">
+            <div class="col-md-6 col-sm-12">
                 <label class="form-label">Ocupación</label>
-                <input type="text" class="form-control" formControlName="codigoOcupacion"
-                    [ngClass]="{'is-invalid': submited && userForm.get('codigoOcupacion')?.errors}">
+                <input-select-tree formControlName="codigoOcupacion" [JsonData]="ocupacionesList"
+                (onChangeParent)="getAllOcupacion($event)"
+                (onSelectedItem)="getAllOcupacion()"
+                    [invalidClass]="submited && userForm.get('codigoOcupacion')?.errors"></input-select-tree>
             </div>
+        </div>
+        <div class="mb-3 row">
             <div class="col-md-3 col-sm-12">
                 <label class="form-label">País de residencia</label>
                 <select class="form-select" formControlName="idPaisResidencia"
@@ -94,13 +98,7 @@
                     <option [value]="item.idPais">{{item.pais}}</option>
                     }
                 </select>
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <div class="col-md-3 col-sm-12">
-                <label class="form-label">Municipio residencia</label>
-                <input type="text" class="form-control" formControlName="codigoDeparMuni"
-                    [ngClass]="{'is-invalid': submited && userForm.get('codigoDeparMuni')?.errors}">
+
             </div>
             <div class="col-md-3 col-sm-12">
                 <label class="form-label">Zona de residencia</label>
@@ -112,8 +110,34 @@
                 </select>
             </div>
             <div class="col-md-3 col-sm-12">
+                <label class="form-label">Depto residencia</label>
+                <select class="form-select" (change)="getAllMunicipiosByDepartamento($event)"
+                formControlName="codigoDepartamento"
+                    [ngClass]="{'is-invalid': submited && userForm.get('codigoDepartamento')?.errors}"> 
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of departamentoList; track $index) {
+                    <option [value]="item.codigoDeparMuni">{{item.deparMuni}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Municipio residencia</label>
+                <select class="form-select" formControlName="codigoDeparMuni"
+                    [ngClass]="{'is-invalid': submited && userForm.get('codigoDeparMuni')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of municipioList; track $index) {
+                    <option [value]="item.codigoDeparMuni">{{item.deparMuni}}</option>
+                    }
+                </select>
+            </div>
+
+        </div>
+        <div class="mb-3 row">
+            <div class="col-md-3 col-sm-12">
                 <label class="form-label">Etnia</label>
-                <select class="form-select" (change)="getAllCommunitiesByEtnia($event)">
+                <select class="form-select" (change)="getAllCommunitiesByEtnia($event)"
+                formControlName="codigoEtnia"
+                    [ngClass]="{'is-invalid': submited && userForm.get('codigoEtnia')?.errors}">
                     <option value="" hidden>Seleccionar</option>
                     @for (item of etniaList; track $index) {
                     <option [value]="item.codigoEtnia">{{item.etnia}}</option>
@@ -130,9 +154,7 @@
                     }
                 </select>
             </div>
-        </div>
-        <div class="mb-3 row">
-            <div class="col-md-3 col-sm-12">
+            <div class="col-md-6 col-sm-12">
                 <label class="form-label">Entidad administradora de salud</label>
                 <select class="form-select" formControlName="codigoEntidad"
                     [ngClass]="{'is-invalid': submited && userForm.get('codigoEntidad')?.errors}">
