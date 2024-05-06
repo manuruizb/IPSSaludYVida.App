@@ -1,0 +1,58 @@
+<div class="ol-card table-container">
+
+    <table class="ol-table">
+        <caption class="d-none">Custom</caption>
+        <thead>
+            <tr>
+                <th *ngFor="let item of dataValues;index as i;">
+                    {{item.header}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="no-data" *ngIf="filter">
+                <td [attr.colspan]="dataValues.length">
+                    <div class="form-icon">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" [placeholder]="filterPlaceHolder" [(ngModel)]="searcherText" (keydown.enter)="search()" (blur)="search()">
+                    </div>
+                </td>
+            </tr>
+            <tr *ngFor="let item of JSONdata ; index as i">
+                <td *ngFor="let values of dataValues;index as j;">
+                    <div *ngIf="values.id != null && values.boolean">
+                        {{ item['' + values.id + ''] === true ? 'Activo' : 'Inactivo' }}
+                    </div>
+                    <div *ngIf="values.id != null && values.date">
+                        {{ item['' + values.id + ''] | date: 'dd/MM/yyyy hh:mm a' }}
+                    </div>
+                    <div *ngIf="values.id != null && values.hour">
+                        {{ item['' + values.id + ''] | date: 'hh:mm a' }}
+                    </div>
+                    <div
+                        *ngIf="values.id != null && !values.date && !values.boolean && !values.hour && !values.template">
+                        <p>{{item['' + values.id + '']}}</p>
+                    </div>
+                    <div *ngIf="values.template">
+                        <ng-container [ngTemplateOutlet]="$any(values.template)"
+                            [ngTemplateOutletContext]="{ $implicit: 0, index: i, keyValue: item['' + keyValue + ''], value: item['' + values.id + ''], data: item }">
+                        </ng-container>
+                    </div>
+                </td>
+
+            </tr>
+            <tr class="no-data" *ngIf="JSONdata.length == 0">
+                <td [attr.colspan]="dataValues.length">
+                    <p class="text-center">No se encontraron resultados</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="paginator" *ngIf="paginatePosition == 'bottom' && (totalItems > itemsPerPage)">
+    <p class="me-5 pages-info">{{((currentPage -1) * itemsPerPage) + JSONdata.length }} de {{totalItems }} Registros</p>
+    <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [maxSize]="10" [(ngModel)]="currentPage"
+        previousText="&lsaquo;" nextText="&rsaquo;" (pageChanged)="pageChanged($event)">
+    </pagination>
+</div>

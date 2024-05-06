@@ -1,0 +1,62 @@
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 10px;
+
+  table.ol-table {
+    border: none;
+    width: 100%;
+    color: #fff;
+    border-collapse: separate;
+    border-spacing: 0 2px;
+
+    thead {
+      background-color: var(--primary-color);
+      box-shadow: var(--ol-box-shadow);
+
+      th {
+        padding: 10px 15px;
+        font-weight: bold;
+        font-size: 16px;
+        user-select: none;
+        color: #fff;
+        &:first-child {
+          border-top-left-radius: 5px;
+          border-bottom-left-radius: 5px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 5px;
+          border-bottom-right-radius: 5px;
+        }
+      }
+    }
+
+    tbody {
+      td {
+
+        max-width: 300px;
+        padding: 10px 15px;
+        font-size: 14px;
+        position: relative;
+        p {
+          text-overflow: ellipsis !important;
+          overflow: hidden !important;
+          white-space: nowrap !important;
+        }
+      }
+    }
+  }
+}
+
+.btn {
+  box-shadow: var(--ol-box-shadow) !important;
+
+  &.btn-action {
+    background-color: var(--ol-button-primary-color);
+    color: var(--ol-button-primary-color-inverted);
+  }
+
+  &:hover {
+    color: var(--ol-button-primary-color-inverted) !important;
+  }
+}

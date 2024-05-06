@@ -1,0 +1,21 @@
+<div class="header">
+    <label>IPS Salud y Vida<i class="fa-solid fa-hospital"></i></label>
+</div>
+<input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+<label for="openSidebarMenu" class="sidebarIconToggle">
+    <div class="spinner diagonal part-1"></div>
+    <div class="spinner horizontal"></div>
+    <div class="spinner diagonal part-2"></div>
+</label>
+<div id="sidebarMenu">
+    <ul class="sidebarMenuInner">
+        <li class="item"><i class="fa-solid fa-home"></i><a routerLink="/">Inicio</a></li>
+        <li class="item"><i class="fa-solid fa-users"></i><a routerLink="/usuarios">Usuarios</a></li>
+        <li class="item"><i class="fa-solid fa-heart-pulse"></i><a routerLink="/servicios-de-salud">Servicios de Salud</a></li>
+    </ul>
+</div>
+<div class="main container">
+    <master-placeholder name="header"></master-placeholder>
+    <master-placeholder name="main"></master-placeholder>
+</div>
+<router-outlet name="master"></router-outlet>

@@ -1,0 +1,201 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef!.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+
+<form [formGroup]="userForm" class="form" (ngSubmit)="save()">
+    <div class="modal-body">
+        <div class="mb-3 row">
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Primer nombre</label>
+                <input type="text" class="form-control" formControlName="primerNombre"
+                    [ngClass]="{'is-invalid': submited && userForm.get('primerNombre')?.errors}">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Segundo nombre</label>
+                <input type="text" class="form-control" formControlName="segundoNombre"
+                    [ngClass]="{'is-invalid': submited && userForm.get('segundoNombre')?.errors}">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Primer apellido</label>
+                <input type="text" class="form-control" formControlName="primerApellido"
+                    [ngClass]="{'is-invalid': submited && userForm.get('primerApellido')?.errors}">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Segundo apellido</label>
+                <input type="text" class="form-control" formControlName="segundoApellido"
+                    [ngClass]="{'is-invalid': submited && userForm.get('segundoApellido')?.errors}">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Tipo de Documento</label>
+                <select class="form-select" formControlName="tipoDocumento"
+                    [ngClass]="{'is-invalid': submited && userForm.get('tipoDocumento')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of documentTypeList; track $index) {
+                    <option [value]="item.tipoDocumento">{{item.descripcionDocumento}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Número Documento</label>
+                <input type="text" class="form-control" formControlName="numeroDocumento"
+                    (keypress)="helpers.onlyNumbers($event)"
+                    [ngClass]="{'is-invalid': submited && userForm.get('numeroDocumento')?.errors}">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Fecha de nacimiento</label>
+                <input type="date" class="form-control" formControlName="fechaNacimiento"
+                    [ngClass]="{'is-invalid': submited && userForm.get('fechaNacimiento')?.errors}">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Hora de nacimiento</label>
+                <input type="time" class="form-control" formControlName="horaNacimiento"
+                    [ngClass]="{'is-invalid': submited && userForm.get('horaNacimiento')?.errors}">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Sexo biológico</label>
+                <select class="form-select" formControlName="sexoBiologico"
+                    [ngClass]="{'is-invalid': submited && userForm.get('sexoBiologico')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    <option value="Hombre">Hombre</option>
+                    <option value="Mujer">Mujer</option>
+                    <option value="Indeterminado/Intersexual">Indeterminado/Intersexual</option>
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Identidad de género</label>
+                <select class="form-select" formControlName="identidadGenero"
+                    [ngClass]="{'is-invalid': submited && userForm.get('identidadGenero')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Transgénero">Transgénero</option>
+                    <option value="Neutro">Neutro</option>
+                    <option value="No lo declara">No lo declara</option>
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Ocupación</label>
+                <input type="text" class="form-control" formControlName="codigoOcupacion"
+                    [ngClass]="{'is-invalid': submited && userForm.get('codigoOcupacion')?.errors}">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">País de residencia</label>
+                <select class="form-select" formControlName="idPaisResidencia"
+                    [ngClass]="{'is-invalid': submited && userForm.get('idPaisResidencia')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of countryList; track $index) {
+                    <option [value]="item.idPais">{{item.pais}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Municipio</label>
+                <input type="text" class="form-control" formControlName="codigoDeparMuni"
+                    [ngClass]="{'is-invalid': submited && userForm.get('codigoDeparMuni')?.errors}">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Zona residencia</label>
+                <select class="form-select" formControlName="zonaResidencia"
+                    [ngClass]="{'is-invalid': submited && userForm.get('zonaResidencia')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    <option value="Urbana">Urbana</option>
+                    <option value="Rural">Rural</option>
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Etnia</label>
+                <select class="form-select" (change)="getAllCommunitiesByEtnia($event)">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of etniaList; track $index) {
+                    <option [value]="item.codigoEtnia">{{item.etnia}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Comunidad etnica</label>
+                <select class="form-select" formControlName="codigoComunidad"
+                    [ngClass]="{'is-invalid': submited && userForm.get('codigoComunidad')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of comunidadEtnicaList; track $index) {
+                    <option [value]="item.codigoComunidad">{{item.comunidad}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Entidad prestadora de salud</label>
+                <input type="text" class="form-control" formControlName="codigoEntidad"
+                    [ngClass]="{'is-invalid': submited && userForm.get('codigoEntidad')?.errors}">
+            </div>
+        </div>
+    </div>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Oposición a la presunción legal de donación</h4>
+    </div>
+    <div class="modal-body" formGroupName="opoDonacion">
+        <div class="mb-3 row">
+            <div class="col-md-3 col-sm-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="manifestacionOposicion"
+                        id="manifestacionOposicion" (change)="onchangeOpoDonacion($event)">
+                    <label class="form-check-label" for="manifestacionOposicion">
+                        Manifestación oposición
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Fecha</label>
+                <input type="date" class="form-control" formControlName="fecha"
+                    [ngClass]="{'is-invalid': submited && userForm.get('opoDonacion')?.get('fecha')?.errors }">
+            </div>
+        </div>
+    </div>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Documento de voluntad anticipada</h4>
+    </div>
+    <div class="modal-body" formGroupName="voluntad">
+        <div class="mb-3 row">
+            <div class="col-md-3 col-sm-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="documentoVoluntad"
+                        id="documentoVoluntad"
+                        [ngClass]="{'is-invalid': submited && userForm.get('documentoVoluntad')?.errors}">
+                    <label class="form-check-label" for="documentoVoluntad">
+                        Documento voluntad
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Fecha</label>
+                <input type="date" class="form-control" formControlName="fecha"
+                    [ngClass]="{'is-invalid': submited && userForm.get('fecha')?.errors}">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Prestador de salud</label>
+                <select class="form-select" formControlName="codigoPrestadorSalud"
+                    [ngClass]="{'is-invalid': submited && userForm.get('codigoPrestadorSalud')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of prestadorSaludList; track $index) {
+                    <option [value]="item.codigoPrestadorSalud">{{item.prestadorSalud}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row buttons">
+            <button type="button" class="btn btn-sm" (click)="bsModalRef!.hide()">Cancelar</button>
+            <button type="submit">Guardar</button>
+        </div>
+    </div>
+</form>
