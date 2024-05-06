@@ -10,6 +10,7 @@ import { Paises } from '../../models/paises.model';
 import { Etnia } from '../../models/etnia.model';
 import { ComunidadEtnica } from '../../models/comunidadEtnica.model';
 import { PrestadorSalud } from '../../models/prestadorSalud.model';
+import { EntidadesAdministradorasSalud } from '../../models/entidadesAdministradorasSalud.model';
 
 @Component({
   selector: 'app-user-modal',
@@ -40,7 +41,7 @@ export class UserModalComponent implements OnInit {
     codigoDeparMuni: new FormControl('', Validators.required),
     codigoComunidad: new FormControl('', Validators.required),
     zonaResidencia: new FormControl('', Validators.required),
-    codigoEntidad: new FormControl(''),
+    codigoEntidad: new FormControl('', Validators.required),
     opoDonacion: new FormGroup({
       manifestacionOposicion: new FormControl(false, Validators.required),
       fecha: new FormControl(''),
@@ -58,6 +59,7 @@ export class UserModalComponent implements OnInit {
   etniaList: Etnia[] = [];
   comunidadEtnicaList: ComunidadEtnica[] = [];
   prestadorSaludList: PrestadorSalud[] = [];
+  entidadAdministradoraList: EntidadesAdministradorasSalud[] = [];
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -69,6 +71,7 @@ export class UserModalComponent implements OnInit {
     this.getAllCountries();
     this.getAllEtnia();
     this.getAllPrestadorSalud();
+    this.getAllEntidadesSalud();
   }
 
   async getAllDocumentTypes() {
@@ -137,6 +140,13 @@ export class UserModalComponent implements OnInit {
 
     console.log('haserror', this.userForm.get('opoDonacion')?.get('fecha')?.errors)
 
+  }
+
+  async getAllEntidadesSalud() {
+    const result = await firstValueFrom(this.masterService.getAll<EntidadesAdministradorasSalud>(TablesEnum.EntidadesAdministradorasSalud));
+    if (result.success) {
+      this.entidadAdministradoraList = result.data!;
+    }
   }
 
 }

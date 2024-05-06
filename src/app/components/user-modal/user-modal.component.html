@@ -98,12 +98,12 @@
         </div>
         <div class="mb-3 row">
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Municipio</label>
+                <label class="form-label">Municipio residencia</label>
                 <input type="text" class="form-control" formControlName="codigoDeparMuni"
                     [ngClass]="{'is-invalid': submited && userForm.get('codigoDeparMuni')?.errors}">
             </div>
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Zona residencia</label>
+                <label class="form-label">Zona de residencia</label>
                 <select class="form-select" formControlName="zonaResidencia"
                     [ngClass]="{'is-invalid': submited && userForm.get('zonaResidencia')?.errors}">
                     <option value="" hidden>Seleccionar</option>
@@ -131,11 +131,16 @@
                 </select>
             </div>
         </div>
-        <div class="row">
+        <div class="mb-3 row">
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Entidad prestadora de salud</label>
-                <input type="text" class="form-control" formControlName="codigoEntidad"
+                <label class="form-label">Entidad administradora de salud</label>
+                <select class="form-select" formControlName="codigoEntidad"
                     [ngClass]="{'is-invalid': submited && userForm.get('codigoEntidad')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of entidadAdministradoraList; track $index) {
+                    <option [value]="item.codigoEntidad">{{item.nombreEntidad}}</option>
+                    }
+                </select>
             </div>
         </div>
     </div>
@@ -154,7 +159,7 @@
                 </div>
             </div>
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Fecha</label>
+                <label class="form-label">Fecha suscripción</label>
                 <input type="date" class="form-control" formControlName="fecha"
                     [ngClass]="{'is-invalid': submited && userForm.get('opoDonacion')?.get('fecha')?.errors }">
             </div>
@@ -176,7 +181,7 @@
                 </div>
             </div>
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Fecha</label>
+                <label class="form-label">Fecha suscripción</label>
                 <input type="date" class="form-control" formControlName="fecha"
                     [ngClass]="{'is-invalid': submited && userForm.get('fecha')?.errors}">
             </div>
