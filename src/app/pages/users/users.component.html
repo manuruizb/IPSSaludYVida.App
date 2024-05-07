@@ -1,14 +1,14 @@
 <master-content placeholder="header" class="page-title">
     Usuarios
     <div class="actions" id="actionbtn">
-        <button class="btn btn-action" type="button" placement="left" (click)="openModal(false)"
+        <button class="btn btn-action" type="button" placement="left" (click)="openModal(false, false)"
             tooltip="Crea un nuevo usuario">Nuevo&nbsp;<i class="fas fa-plus"></i></button>
     </div>
 </master-content>
 <master-content placeholder="main">
-    
+
     <ol-datatable [JSONdata]="JSONdata" [dataValues]="dataValues" [itemsPerPage]="$any(itemsPerPage)"
-        [totalItems]="totalItems" keyValue="idUsuario" paginatePosition="bottom" [filter]="true"
+        [totalItems]="totalItems" keyValue="numeroDocumento" paginatePosition="bottom" [filter]="true"
         (pageChange)="onPageChanged($event)" (onSearch)="getAll(1,$event)" filterPlaceHolder="Buscar por documento">
     </ol-datatable>
 
@@ -16,8 +16,7 @@
 
 <ng-template #actionsTemplate let-identifier="keyValue">
     <div class="action-column">
-        <i tooltip="Editar" container="body" class="far fa-edit"
-            (click)="openModal(true, identifier)"></i>
-        <i tooltip="Ver" container="body" class="far fa-eye" (click)="openModal(false, identifier)"></i>
+        <i tooltip="Editar" container="body" class="far fa-edit" (click)="openModal(true, false,identifier)"></i>
+        <i tooltip="Ver" container="body" class="far fa-eye" (click)="openModal(true, true,identifier)"></i>
     </div>
 </ng-template>

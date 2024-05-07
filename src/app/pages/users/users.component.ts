@@ -11,7 +11,7 @@ import { UserService } from '../../services/user.service';
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent implements OnInit{
+export class UsersComponent implements OnInit {
 
   @ViewChild('actionsTemplate', { static: true }) actionsTemplate: TemplateRef<any> = {} as TemplateRef<any>;
 
@@ -34,12 +34,13 @@ export class UsersComponent implements OnInit{
     this.getAll(1);
   }
 
-  openModal(isEditable: boolean, idUsuario?: any) {
+  openModal(isEditable: boolean, onViewMode: boolean, document?: any,) {
     const initialState: ModalOptions = {
       initialState: {
-        modalTitle: isEditable ? 'Editar usuario' : 'Nuevo usuario',
+        modalTitle: isEditable && !onViewMode ? 'Editar usuario' : (isEditable && onViewMode ? 'Datos del usuario' : 'Nuevo usuario'),
         onEdit: isEditable,
-        idUsuario
+        document,
+        onViewMode
       },
       ignoreBackdropClick: true,
       class: 'modal-lg',
@@ -48,7 +49,7 @@ export class UsersComponent implements OnInit{
     this.bsModalRef = this.modalService.show(UserModalComponent, initialState);
 
     this.modalService.onHide.subscribe((reason: string | any) => {
-      //volver a consultar todos los registros de usuarios, al cerrar la modal;
+      this.getAll(1);
     })
 
   }
@@ -65,7 +66,7 @@ export class UsersComponent implements OnInit{
     this.currentPage = page;
 
     const result = await firstValueFrom(this.userService.getAll(page, this.itemsPerPage, searchParameter));
-
+    console.log(result);
     if (result.data!.rows.length > 0) {
       this.totalItems = Number(result.data?.count);
     } else {

@@ -1,7 +1,7 @@
 <div class="input-select-tree-content">
 
     <input class="form-select" readonly (click)="toggle(); $event.stopPropagation()" [(ngModel)]="selectedText"
-    [ngClass]="{'is-invalid': invalidClass}">
+    [ngClass]="{'is-invalid': invalidClass}" [disabled]="disabled">
     <div *ngIf="isActive" class="drop-down-container">
         <div class="header-tree">
             <div class="searcher-tree">

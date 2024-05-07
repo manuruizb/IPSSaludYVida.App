@@ -1,3 +1,13 @@
+import { ComunidadEtnica } from "./comunidadEtnica.model";
+import { DepartamentoMunicipios } from "./departamentoMunicipio.model";
+import { Discapacidad } from "./discapacidad.model";
+import { Ocupacion } from "./ocupacion.model";
+import { OposicionDonacion } from "./oposicionDonacion.model";
+import { Pais } from "./pais.model";
+import { Usuariodiscapacidad } from "./usuarioDiscapacidad.model";
+import { UsuarioPais } from "./usuarioPais.model";
+import { VoluntadAnticipada } from "./voluntadAnticipada.model";
+
 export interface Usuarios {
     idUsuario: string;
     tipoDocumento: string;
@@ -18,4 +28,12 @@ export interface Usuarios {
     codigoComunidad: string;
     zonaResidencia: string;
     codigoEntidad: string;
+
+    idDonacionNavigation?: OposicionDonacion;
+    idVoluntadNavigation?: VoluntadAnticipada;
+    codigoOcupacionNavigation?: Ocupacion;
+    codigoComunidadNavigation?: ComunidadEtnica;
+    codigoDeparMuniNavigation?: DepartamentoMunicipios;
+    usuarioPaises?: UsuarioPais[];
+    usuarioDiscapacidads?: Usuariodiscapacidad[]
 }

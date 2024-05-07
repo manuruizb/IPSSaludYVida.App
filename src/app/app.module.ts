@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { HealthServicesComponent } from './pages/health-services/health-services
 import { UserModalComponent } from './components/user-modal/user-modal.component';
 import { InputSelectTreeComponent } from './shared/input-select-tree/input-select-tree.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { FilterPipe } from './pipes/filter.pipe';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -43,6 +46,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     PaginationModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
+    MultiSelectModule
   ],
   providers: [
     {

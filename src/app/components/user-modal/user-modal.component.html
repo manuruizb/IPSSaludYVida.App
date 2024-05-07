@@ -82,9 +82,9 @@
             </div>
             <div class="col-md-6 col-sm-12">
                 <label class="form-label">Ocupación</label>
-                <input-select-tree formControlName="codigoOcupacion" [JsonData]="ocupacionesList"
-                (onChangeParent)="getAllOcupacion($event)"
-                (onSelectedItem)="getAllOcupacion()"
+                <input-select-tree [disabled]="onViewMode" [selectedText]="ocupacionText" formControlName="codigoOcupacion"
+                    [JsonData]="ocupacionesList" (onChangeParent)="getAllOcupacion($event)"
+                    (onSelectedItem)="getAllOcupacion()"
                     [invalidClass]="submited && userForm.get('codigoOcupacion')?.errors"></input-select-tree>
             </div>
         </div>
@@ -112,8 +112,8 @@
             <div class="col-md-3 col-sm-12">
                 <label class="form-label">Depto residencia</label>
                 <select class="form-select" (change)="getAllMunicipiosByDepartamento($event)"
-                formControlName="codigoDepartamento"
-                    [ngClass]="{'is-invalid': submited && userForm.get('codigoDepartamento')?.errors}"> 
+                    formControlName="codigoDepartamento"
+                    [ngClass]="{'is-invalid': submited && userForm.get('codigoDepartamento')?.errors}">
                     <option value="" hidden>Seleccionar</option>
                     @for (item of departamentoList; track $index) {
                     <option [value]="item.codigoDeparMuni">{{item.deparMuni}}</option>
@@ -135,8 +135,7 @@
         <div class="mb-3 row">
             <div class="col-md-3 col-sm-12">
                 <label class="form-label">Etnia</label>
-                <select class="form-select" (change)="getAllCommunitiesByEtnia($event)"
-                formControlName="codigoEtnia"
+                <select class="form-select" (change)="getAllCommunitiesByEtnia($event)" formControlName="codigoEtnia"
                     [ngClass]="{'is-invalid': submited && userForm.get('codigoEtnia')?.errors}">
                     <option value="" hidden>Seleccionar</option>
                     @for (item of etniaList; track $index) {
@@ -167,6 +166,31 @@
         </div>
     </div>
     <div class="modal-header">
+        <h4 class="modal-title pull-left">País de la nacionalidad&nbsp;<small>(Selecciona uno ó varios)</small> </h4>
+        <i class="fa-solid fa-pencil edit-area" (click)="onEditPais()" *ngIf="onEdit && !editPais && !onViewMode"
+            tooltip="Editar paises"></i>
+    </div>
+    <div class="modal-body">
+        <input class="form-control" type="text" readonly [value]="paisesSeleccionados" *ngIf="onEdit && !editPais" [disabled]="onViewMode">
+        <p-multiSelect [options]="paisesList" formControlName="paises" optionLabel="pais"
+            placeholder="Seleccione los paises" [ngClass]="{'ng-invalid ng-dirty': submited && userForm.get('paises')?.errors, 
+                'd-none': onEdit && !editPais
+            }" />
+    </div>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Discapacidades&nbsp;<small>(Selecciona uno ó varios)</small> </h4>
+        <i class="fa-solid fa-pencil edit-area" (click)="onEditDiscapacidad()" *ngIf="onEdit && !editDiscapacidad && !onViewMode"
+            tooltip="Editar discapacidades"></i>
+    </div>
+    <div class="modal-body">
+        <input class="form-control" type="text" readonly [value]="discapacidadesSeleccionadas" *ngIf="onEdit && !editDiscapacidad" [disabled]="onViewMode">
+        <p-multiSelect [options]="dicapacidadesList" formControlName="discapacidades"
+            optionLabel="categoriaDiscapacidad" placeholder="Seleccione las discapacidades" [ngClass]="{'ng-invalid ng-dirty': submited && userForm.get('discapacidades')?.errors, 
+            'd-none': onEdit && !editDiscapacidad
+
+            }" />
+    </div>
+    <div class="modal-header">
         <h4 class="modal-title pull-left">Oposición a la presunción legal de donación</h4>
     </div>
     <div class="modal-body" formGroupName="opoDonacion">
@@ -174,7 +198,7 @@
             <div class="col-md-3 col-sm-12">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" formControlName="manifestacionOposicion"
-                        id="manifestacionOposicion" (change)="onchangeOpoDonacion($event)">
+                        (change)="updateValues()" id="manifestacionOposicion">
                     <label class="form-check-label" for="manifestacionOposicion">
                         Manifestación oposición
                     </label>
@@ -183,7 +207,7 @@
             <div class="col-md-3 col-sm-12">
                 <label class="form-label">Fecha suscripción</label>
                 <input type="date" class="form-control" formControlName="fecha"
-                    [ngClass]="{'is-invalid': submited && userForm.get('opoDonacion')?.get('fecha')?.errors }">
+                    [ngClass]="{'is-invalid': submited && userForm.get('opoDonacion')?.get('fecha')?.errors}">
             </div>
         </div>
     </div>
@@ -195,8 +219,7 @@
             <div class="col-md-3 col-sm-12">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" formControlName="documentoVoluntad"
-                        id="documentoVoluntad"
-                        [ngClass]="{'is-invalid': submited && userForm.get('documentoVoluntad')?.errors}">
+                        id="documentoVoluntad" (change)="updateValues()">
                     <label class="form-check-label" for="documentoVoluntad">
                         Documento voluntad
                     </label>
@@ -205,12 +228,12 @@
             <div class="col-md-3 col-sm-12">
                 <label class="form-label">Fecha suscripción</label>
                 <input type="date" class="form-control" formControlName="fecha"
-                    [ngClass]="{'is-invalid': submited && userForm.get('fecha')?.errors}">
+                    [ngClass]="{'is-invalid': submited && userForm.get('voluntad')?.get('fecha')?.errors}">
             </div>
             <div class="col-md-3 col-sm-12">
                 <label class="form-label">Prestador de salud</label>
                 <select class="form-select" formControlName="codigoPrestadorSalud"
-                    [ngClass]="{'is-invalid': submited && userForm.get('codigoPrestadorSalud')?.errors}">
+                    [ngClass]="{'is-invalid': submited && userForm.get('voluntad')?.get('codigoPrestadorSalud')?.errors}">
                     <option value="" hidden>Seleccionar</option>
                     @for (item of prestadorSaludList; track $index) {
                     <option [value]="item.codigoPrestadorSalud">{{item.prestadorSalud}}</option>

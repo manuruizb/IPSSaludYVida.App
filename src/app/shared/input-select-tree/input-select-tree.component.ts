@@ -19,9 +19,11 @@ export class InputSelectTreeComponent {
 
   isActive: boolean = false;
   searcher: string = '';
-  selectedText: string = 'Seleccionar';
+  
   preSelectedText: string = 'Todos';
 
+  @Input() disabled: boolean = false;
+  @Input() selectedText: string = '';
   @Input() JsonData: { text: string, value: string, isparent: boolean }[] = [];
   @Input() invalidClass:boolean | ValidationErrors | null | undefined = false;
 

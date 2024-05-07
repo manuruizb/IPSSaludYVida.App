@@ -26,6 +26,15 @@ export abstract class Helpers {
       return empty ? { 'whitespace': true } : null
     }
 
+    public static convertDate(dateString: string) {
+
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
     public static downloadFile(res: any, fileName: string) {
         const blob = new Blob([res], { type: res.type });
         const url = window.URL.createObjectURL(blob);
