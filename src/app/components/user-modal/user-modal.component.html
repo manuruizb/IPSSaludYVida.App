@@ -245,7 +245,7 @@
     <div class="modal-footer">
         <div class="row buttons">
             <button type="button" class="btn btn-sm" (click)="bsModalRef!.hide()">Cancelar</button>
-            <button type="submit">Guardar</button>
+            <button type="submit" *ngIf="!onViewMode">Guardar</button>
         </div>
     </div>
 </form>

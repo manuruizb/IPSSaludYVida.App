@@ -62,12 +62,12 @@ export class UserModalComponent implements OnInit {
     zonaResidencia: new FormControl('', Validators.required),
     codigoEntidad: new FormControl('', Validators.required),
     opoDonacion: new FormGroup({
-      idDonacion: new FormControl(''),
+      idDonacion: new FormControl(0),
       manifestacionOposicion: new FormControl(false),
       fecha: new FormControl('', requiredIfCheckedValidator('manifestacionOposicion')),
     }),
     voluntad: new FormGroup({
-      idVoluntad: new FormControl(''),
+      idVoluntad: new FormControl(0),
       documentoVoluntad: new FormControl(false),
       fecha: new FormControl('', requiredIfCheckedValidator('documentoVoluntad')),
       codigoPrestadorSalud: new FormControl('', requiredIfCheckedValidator('documentoVoluntad')),
@@ -177,16 +177,16 @@ export class UserModalComponent implements OnInit {
       this.ocupacionText = result.data?.codigoOcupacionNavigation?.ocupacion1!;
 
       this.userForm.get('opoDonacion')?.patchValue({
-        idDonacion: result.data?.idDonacion as any,
+        idDonacion: result.data?.idDonacion ? result.data?.idDonacion: 0,
         manifestacionOposicion: result.data?.idDonacionNavigation?.manifestacionOposicion!,
-        fecha: Helpers.convertDate(result.data?.idDonacionNavigation?.fecha.toString() as any)
+        fecha: result.data?.idDonacionNavigation?.fecha ? Helpers.convertDate(result.data?.idDonacionNavigation?.fecha.toString()) : '' 
       })
 
       this.userForm.get('voluntad')?.patchValue({
-        idVoluntad: result.data?.idVoluntad as any,
+        idVoluntad: result.data?.idVoluntad ? result.data?.idVoluntad: 0,
         documentoVoluntad: result.data?.idVoluntadNavigation?.documentoVoluntad!,
-        fecha: Helpers.convertDate(result.data?.idVoluntadNavigation?.fecha.toString() as any),
-        codigoPrestadorSalud: result.data?.idVoluntadNavigation?.codigoPrestadorSalud!
+        fecha: result.data?.idVoluntadNavigation?.fecha ? Helpers.convertDate(result.data?.idVoluntadNavigation?.fecha.toString()): '',
+        codigoPrestadorSalud: result.data?.idVoluntadNavigation?.codigoPrestadorSalud! ? result.data?.idVoluntadNavigation?.codigoPrestadorSalud! : ''
       })
 
 
@@ -324,6 +324,14 @@ export class UserModalComponent implements OnInit {
       discapacidades: formData.discapacidades,
       opoDonacion: formData.opoDonacion,
       voluntad: formData.voluntad
+    }
+
+    if(!data.voluntad.fecha || data.voluntad.fecha === ''){
+      data.voluntad.fecha = '1900-01-01'
+    }
+
+    if(!data.opoDonacion.fecha || data.opoDonacion.fecha === ''){
+      data.opoDonacion.fecha = '1900-01-01'
     }
 
     let result: Result<string> = {} as Result<string>;
