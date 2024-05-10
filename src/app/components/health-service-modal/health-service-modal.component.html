@@ -1,0 +1,146 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef!.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+
+<form [formGroup]="serviceForm" class="form" (ngSubmit)="save()">
+    <div class="modal-body">
+        <div class="mb-3 row">
+            <div class="col-md-4 col-sm-12">
+                <label class="form-label">Prestador de salud</label>
+                <select class="form-select" formControlName="codigoPrestadorSalud"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('codigoPrestadorSalud')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of prestadorSaludList; track $index) {
+                    <option [value]="item.codigoPrestadorSalud">{{item.prestadorSalud}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <label class="form-label">Fecha de atención</label>
+                <input type="date" class="form-control" formControlName="fechaInicioAtencion"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('fechaInicioAtencion')?.errors}">
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <label class="form-label">Hora de atención</label>
+                <input type="time" class="form-control" formControlName="horaInicioAtencion"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('horaInicioAtencion')?.errors}">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-md-4 col sm-12">
+                <label class="form-label">Modalidad del servicio</label>
+                <select class="form-select" formControlName="codigoModalidad"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('codigoModalidad')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of modalidadServicioList; track $index) {
+                    <option [value]="item.codigoModalidad">{{item.modalidadServicio1}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <label class="form-label">Grupo de servicios</label>
+                <select class="form-select" formControlName="grupoServicio"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('grupoServicio')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    <option value="Consulta externa">Consulta externa</option>
+                    <option value="Apoyo diagnóstico y complementación terapéutica">Apoyo diagnóstico y complementación
+                        terapéutica</option>
+                    <option value="Internación">Internación</option>
+                    <option value="Quirúrgico">Quirúrgico</option>
+                    <option value="Atención inmediata">Atención inmediata</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <label class="form-label">Entorno de la atención</label>
+                <select class="form-select" formControlName="entornoAtencion"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('entornoAtencion')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    <option value="Hogar">Hogar</option>
+                    <option value="Comunitario">Comunitario</option>
+                    <option value="Escolar">Escolar</option>
+                    <option value="Laboral">Laboral</option>
+                    <option value="Institucional">Institucional</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-md-4 col sm-12">
+                <label class="form-label">Vía de ingreso</label>
+                <select class="form-select" formControlName="codigoViaIngreso"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('codigoViaIngreso')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of viaIngresoList; track $index) {
+                    <option [value]="item.codigoViaIngreso">{{item.viaIngresoServicio1}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4 col sm-12">
+                <label class="form-label">Causa de atención</label>
+                <select class="form-select" formControlName="codigoCausaAtencion"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('codigoCausaAtencion')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    @for (item of causaAtencionList; track $index) {
+                    <option [value]="item.codigoCausaAtencion">{{item.causaAtencion1}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <label class="form-label">Tipo de diagnóstico</label>
+                <select class="form-select" formControlName="tipoDiagnostico"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('tipoDiagnostico')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    <option value="Impresión diagnóstica">Impresión diagnóstica</option>
+                    <option value="Confirmado nuevo">Confirmado nuevo</option>
+                    <option value="Confirmado repetido">Confirmado repetido</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-md-8 col-sm-12">
+                <label class="form-label">Diagnóstico de ingreso</label>
+                <input-select-tree [disabled]="onViewMode" [selectedText]="diagnosticoText"
+                    formControlName="codigoDiagnostico" [JsonData]="diagnosticoList"
+                    (onChangeParent)="getAllDiagnostico($event)" (onSelectedItem)="getAllDiagnostico()"
+                    [invalidClass]="submited && serviceForm.get('codigoDiagnostico')?.errors"></input-select-tree>
+            </div>
+        </div>
+    </div>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Triage</h4>
+    </div>
+    <div class="modal-body" formGroupName="triage">
+        <div class="mb-3 row">
+            <div class="col-md-4 col-sm-12">
+                    <label class="form-label">Fecha</label>
+                    <input type="date" class="form-control" formControlName="fechaTriage"
+                        [ngClass]="{'is-invalid': submited && serviceForm.get('triage')?.get('fechaTriage')?.errors}">
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <label class="form-label">Hora</label>
+                <input type="time" class="form-control" formControlName="horaTriage"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('triage')?.get('horaTriage')?.errors}">
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <label class="form-label">Clasificación</label>
+                <select class="form-select" formControlName="clasificacionTriage"
+                    [ngClass]="{'is-invalid': submited && serviceForm.get('triage')?.get('clasificacionTriage')?.errors}">
+                    <option value="" hidden>Seleccionar</option>
+                    <option value="Triage I">Triage I</option>
+                    <option value="Triage II">Triage II</option>
+                    <option value="Triage III">Triage III</option>
+                    <option value="Triage IV">Triage IV</option>
+                    <option value="Triage V">Triage V</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row buttons">
+            <button type="button" class="btn btn-sm" (click)="bsModalRef!.hide()">Cancelar</button>
+            <button type="submit" *ngIf="!onViewMode">Guardar</button>
+        </div>
+    </div>
+</form>

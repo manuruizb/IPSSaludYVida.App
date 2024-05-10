@@ -86,7 +86,5 @@ export class UsersComponent implements OnInit {
     this.getAll(page);
   }
 
-
-
-
+  
 }

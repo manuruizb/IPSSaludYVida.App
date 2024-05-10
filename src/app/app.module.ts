@@ -21,6 +21,7 @@ import { UserModalComponent } from './components/user-modal/user-modal.component
 import { InputSelectTreeComponent } from './shared/input-select-tree/input-select-tree.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { HealthServiceModalComponent } from './components/health-service-modal/health-service-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
     HealthServicesComponent,
     UserModalComponent,
     InputSelectTreeComponent,
-    FilterPipe
+    FilterPipe,
+    HealthServiceModalComponent
   ],
   imports: [
     BrowserModule,

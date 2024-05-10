@@ -1,1 +1,32 @@
-<p>health-services works!</p>
+<master-content placeholder="header" class="page-title">
+    Servicios de Salud
+    <div class="actions" id="actionbtn">
+        <div class="account">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1" (click)="getAll(1)"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" class="form-control" placeholder="Buscar usuario" 
+                aria-label="Username" aria-describedby="basic-addon1" (keypress)="helpers.onlyNumbers($event)"
+                (keydown.enter)="getAll(1)" [(ngModel)]="document">
+              </div>
+        </div>
+        <button class="btn btn-action" type="button" placement="left" (click)="openModal(false, false, document)"
+            tooltip="Crea un nuevo servicio de salud" *ngIf="nombreUsuario != ''">Nuevo&nbsp;<i class="fas fa-plus"></i></button>
+    </div>
+</master-content>
+<master-content placeholder="main">
+
+<h4>{{nombreUsuario}}</h4>
+
+    <ol-datatable [JSONdata]="JSONdata" [dataValues]="dataValues" [itemsPerPage]="$any(itemsPerPage)"
+        [totalItems]="totalItems" keyValue="idServicioSalud" paginatePosition="bottom"
+        (pageChange)="onPageChanged($event)" (onSearch)="getAll(1,$event)">
+    </ol-datatable>
+
+</master-content>
+
+<ng-template #actionsTemplate let-identifier="keyValue">
+    <div class="action-column">
+        <i tooltip="Editar" container="body" class="far fa-edit" (click)="openModal(true, false, document, identifier)"></i>
+        <i tooltip="Ver" container="body" class="far fa-eye" (click)="openModal(true, true,document, identifier)"></i>
+    </div>
+</ng-template>

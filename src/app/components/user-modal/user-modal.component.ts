@@ -113,8 +113,6 @@ export class UserModalComponent implements OnInit {
       }
       await this.getUserData();
     }
-
-    
   }
 
   async getUserData() {
@@ -188,8 +186,6 @@ export class UserModalComponent implements OnInit {
         fecha: result.data?.idVoluntadNavigation?.fecha ? Helpers.convertDate(result.data?.idVoluntadNavigation?.fecha.toString()): '',
         codigoPrestadorSalud: result.data?.idVoluntadNavigation?.codigoPrestadorSalud! ? result.data?.idVoluntadNavigation?.codigoPrestadorSalud! : ''
       })
-
-
     }
   }
 
@@ -254,7 +250,6 @@ export class UserModalComponent implements OnInit {
       const tg = evt!.target as HTMLSelectElement;
       codigoEtnia = tg.value;
     }
-
 
     const result = await firstValueFrom(this.masterService.getAll<ComunidadEtnica>(TablesEnum.ComunidadEtnica, codigoEtnia));
     if (result.success) {

@@ -24,7 +24,7 @@
                         {{ item['' + values.id + ''] === true ? 'Activo' : 'Inactivo' }}
                     </div>
                     <div *ngIf="values.id != null && values.date">
-                        {{ item['' + values.id + ''] | date: 'dd/MM/yyyy hh:mm a' }}
+                        {{ item['' + values.id + ''] | date: 'dd/MM/yyyy' }}
                     </div>
                     <div *ngIf="values.id != null && values.hour">
                         {{ item['' + values.id + ''] | date: 'hh:mm a' }}
